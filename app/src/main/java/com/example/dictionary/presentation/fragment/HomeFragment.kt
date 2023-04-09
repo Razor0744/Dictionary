@@ -23,7 +23,6 @@ class HomeFragment : Fragment() {
 
     private val viewModel by viewModel<HomeViewModel>()
 
-    private var words: List<Word> = arrayListOf()
     private lateinit var adapterWord: AdapterWord
 
     @SuppressLint("NotifyDataSetChanged")
@@ -33,12 +32,13 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.getWords()
-            adapterWord.notifyDataSetChanged()
+        viewModel.words.observe(viewLifecycleOwner) {
+            adapter(it)
         }
 
-        adapter()
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.getWords()
+        }
 
         return binding.root
     }
@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun adapter() {
+    private fun adapter(words: List<Word>) {
         adapterWord = AdapterWord(words = words)
         binding.recyclerView.adapter = adapterWord
     }

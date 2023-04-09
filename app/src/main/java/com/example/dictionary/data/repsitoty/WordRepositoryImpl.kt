@@ -10,7 +10,7 @@ class WordRepositoryImpl(private val wordDao: WordDao) : WordRepository {
         return wordDao.getAll()
     }
 
-    override fun setWord(word: Word) {
-        wordDao.insertWord(word = word)
+    override fun addWord(word: Word) {
+        wordDao.addWord(word = word)
     }
 }

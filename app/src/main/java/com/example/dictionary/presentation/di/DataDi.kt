@@ -13,7 +13,9 @@ val dataModule = module {
             get(),
             AppDatabase::class.java,
             "database"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     single<WordDao> {

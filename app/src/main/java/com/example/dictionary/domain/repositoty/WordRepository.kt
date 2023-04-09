@@ -6,5 +6,5 @@ interface WordRepository {
 
     fun getWords(): List<Word>
 
-    fun setWord(word: Word)
+    fun addWord(word: Word)
 }

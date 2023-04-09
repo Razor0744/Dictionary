@@ -6,8 +6,7 @@ import com.example.dictionary.domain.model.Word
 
 @Database(
     entities = [Word::class],
-    version = 1,
-//    autoMigrations = [AutoMigration(from = 1, to = 1)]
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
 

@@ -11,5 +11,5 @@ interface WordDao {
     fun getAll(): List<Word>
 
     @Insert
-    fun insertWord(word: Word)
+    fun addWord(word: Word)
 }

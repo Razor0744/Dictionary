@@ -3,14 +3,13 @@ package com.example.dictionary.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.dictionary.databinding.RecyclerViewWordBinding
 import com.example.dictionary.domain.model.Word
 
-class AdapterWord(private val words: List<Word>) : RecyclerView.Adapter<ViewHolder>() {
+class AdapterWord(private val words: List<Word>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class ViewHolderWord(private val binding: RecyclerViewWordBinding) :
-        ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bindWord(word: Word) {
             binding.english.text = word.english
@@ -18,7 +17,7 @@ class AdapterWord(private val words: List<Word>) : RecyclerView.Adapter<ViewHold
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
             RecyclerViewWordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolderWord(binding)
@@ -28,7 +27,7 @@ class AdapterWord(private val words: List<Word>) : RecyclerView.Adapter<ViewHold
         return words.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ViewHolderWord).bindWord(word = words[position])
     }
 }
