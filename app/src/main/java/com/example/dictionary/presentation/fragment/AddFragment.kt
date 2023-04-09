@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.dictionary.R
 import com.example.dictionary.databinding.FragmentAddBinding
 import com.example.dictionary.domain.model.Word
+import com.example.dictionary.presentation.activity.MainActivity
 import com.example.dictionary.presentation.viewmodelfragment.AddViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,6 +35,7 @@ class AddFragment : Fragment() {
                             russian = binding.editTextRussian.text.toString().trim()
                         )
                     )
+                    (activity as MainActivity).navigateAction(R.id.menu1)
                 }
             }
         }

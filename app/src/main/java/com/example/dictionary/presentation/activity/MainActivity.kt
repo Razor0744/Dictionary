@@ -27,4 +27,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
+    fun navigateAction(res: Int) {
+        binding.bottomNavigationView.selectedItemId = res
+    }
 }
