@@ -9,4 +9,10 @@
     <string name="add_english">English</string>
     <string name="add_russian">Russian</string>
     <string name="add_button">Add</string>
+    <string-array name="parts_of_speech_array">
+        <item>(сущ)</item>
+        <item>(прил)</item>
+        <item>(гл)</item>
+        <item>(нар)</item>
+    </string-array>
 </resources>
