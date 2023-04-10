@@ -8,5 +8,5 @@ data class Word(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val english: String,
     val russian: String,
-    val daysWithoutMistakes: Int? = null
+    val daysWithoutMistakes: Int = 0
 )

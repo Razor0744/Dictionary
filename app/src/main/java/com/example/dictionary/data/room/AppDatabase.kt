@@ -6,7 +6,7 @@ import com.example.dictionary.domain.model.Word
 
 @Database(
     entities = [Word::class],
-    version = 2
+    version = 3
 )
 abstract class AppDatabase : RoomDatabase() {
 

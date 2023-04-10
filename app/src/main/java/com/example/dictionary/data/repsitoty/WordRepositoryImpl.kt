@@ -7,10 +7,22 @@ import com.example.dictionary.domain.repositoty.WordRepository
 class WordRepositoryImpl(private val wordDao: WordDao) : WordRepository {
 
     override fun getWords(): List<Word> {
-        return wordDao.getAll()
+        return wordDao.getWords()
+    }
+
+    override fun getWordsByDaysMin(): List<Word> {
+        return wordDao.getWordsByDaysMin()
+    }
+
+    override fun getWordsByDaysMax(): List<Word> {
+        return wordDao.getWordsByDaysMax()
     }
 
     override fun addWord(word: Word) {
         wordDao.addWord(word = word)
+    }
+
+    override fun updateDay(word: Word) {
+        wordDao.updateDay(word = word)
     }
 }

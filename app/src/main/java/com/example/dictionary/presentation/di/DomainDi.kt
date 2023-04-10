@@ -1,7 +1,6 @@
 package com.example.dictionary.presentation.di
 
-import com.example.dictionary.domain.usecase.AddWordUseCase
-import com.example.dictionary.domain.usecase.GetWordsUseCase
+import com.example.dictionary.domain.usecase.*
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -12,5 +11,17 @@ val domainModule = module {
 
     factory<AddWordUseCase> {
         AddWordUseCase(wordRepository = get())
+    }
+
+    factory<GetWordsByDaysMinUseCase> {
+        GetWordsByDaysMinUseCase(wordRepository = get())
+    }
+
+    factory<GetWordsByDaysMaxUseCase> {
+        GetWordsByDaysMaxUseCase(wordRepository = get())
+    }
+
+    factory<UpdateDayUseCase> {
+        UpdateDayUseCase(wordRepository = get())
     }
 }

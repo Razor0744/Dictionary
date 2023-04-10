@@ -6,7 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.dictionary.databinding.FragmentTrainingBinding
+import com.example.dictionary.domain.model.Word
 import com.example.dictionary.presentation.viewmodelfragment.TrainingViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -17,6 +21,11 @@ class TrainingFragment : Fragment() {
 
     private val viewModel by viewModel<TrainingViewModel>()
 
+    private lateinit var wordsMax: List<Word>
+    private lateinit var wordsMin: List<Word>
+    private var state = false
+    private var number = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,6 +33,20 @@ class TrainingFragment : Fragment() {
         _binding = FragmentTrainingBinding.inflate(inflater, container, false)
 
         animation()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            getWordsMax()
+            getWordsMin()
+        }
+
+        viewModel.wordsMax.observe(viewLifecycleOwner) {
+            wordsMax = it
+        }
+        viewModel.wordsMin.observe(viewLifecycleOwner) {
+            wordsMin = it
+            setTextButton()
+            println(it)
+        }
 
         return binding.root
     }
@@ -34,21 +57,42 @@ class TrainingFragment : Fragment() {
     }
 
     private fun animation() {
-        var state = false
         binding.buttonCard.setOnClickListener {
-            state = if (!state) {
+            if (!state) {
                 binding.buttonCard.animate()
                     .rotationX(180f)
                     .setDuration(300)
                     .start()
-                true
+                state = true
+                setTextButton()
             } else {
                 binding.buttonCard.animate()
                     .rotationX(0f)
                     .setDuration(300)
                     .start()
-                false
+                state = false
+                setTextButton()
             }
+        }
+    }
+
+    private fun getWordsMin() {
+        viewModel.getWordsMin()
+    }
+
+    private fun getWordsMax() {
+        viewModel.getWordsMax()
+    }
+
+    private fun updateDay(word: Word) {
+        viewModel.updateDay(word = word)
+    }
+
+    private fun setTextButton() {
+        if (!state) {
+            binding.textCard.text = wordsMin[number].russian
+        } else {
+            binding.textCard.text = wordsMin[number].english
         }
     }
 }
