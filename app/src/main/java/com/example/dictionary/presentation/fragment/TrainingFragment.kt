@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.dictionary.databinding.FragmentTrainingBinding
 import com.example.dictionary.domain.model.Word
 import com.example.dictionary.presentation.viewmodelfragment.TrainingViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -46,6 +44,21 @@ class TrainingFragment : Fragment() {
             wordsMin = it
             setTextButton()
             println(it)
+        }
+
+        binding.buttonKnow.setOnClickListener {
+            MainScope().launch {
+                withContext(Dispatchers.Default) { knowWord() }
+                withContext(Dispatchers.Default) { number++ }
+                setTextButton()
+            }
+        }
+        binding.buttonNotKnow.setOnClickListener {
+            MainScope().launch {
+                withContext(Dispatchers.Default) { notKnowWord() }
+                withContext(Dispatchers.Default) { number++ }
+                setTextButton()
+            }
         }
 
         return binding.root
@@ -89,10 +102,38 @@ class TrainingFragment : Fragment() {
     }
 
     private fun setTextButton() {
-        if (!state) {
-            binding.textCard.text = wordsMin[number].russian
-        } else {
-            binding.textCard.text = wordsMin[number].english
+        if (wordsMin.size > number) {
+            if (!state) {
+                binding.textCard.text = wordsMin[number].russian
+            } else {
+                binding.textCard.text = wordsMin[number].english
+            }
+        }
+    }
+
+    private fun knowWord() {
+        if (wordsMin.size > number) {
+            updateDay(
+                word = Word(
+                    id = wordsMin[number].id,
+                    english = wordsMin[number].english,
+                    russian = wordsMin[number].russian,
+                    daysWithoutMistakes = wordsMin[number].daysWithoutMistakes + 1
+                )
+            )
+        }
+    }
+
+    private fun notKnowWord() {
+        if (wordsMin.size > number) {
+            updateDay(
+                word = Word(
+                    id = wordsMin[number].id,
+                    english = wordsMin[number].english,
+                    russian = wordsMin[number].russian,
+                    daysWithoutMistakes = 0
+                )
+            )
         }
     }
 }
