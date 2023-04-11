@@ -13,7 +13,10 @@ val presentationModule = module {
     }
 
     viewModel<AddViewModel> {
-        AddViewModel(addWordUseCase = get())
+        AddViewModel(
+            addWordUseCase = get(),
+            getWordsUseCase = get()
+        )
     }
 
     viewModel<TrainingViewModel> {
