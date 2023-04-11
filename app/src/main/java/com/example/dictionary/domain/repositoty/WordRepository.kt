@@ -8,8 +8,6 @@ interface WordRepository {
 
     fun getWordsByDaysMin(): List<Word>
 
-    fun getWordsByDaysMax(): List<Word>
-
     fun addWord(word: Word)
 
     fun updateDay(word: Word)

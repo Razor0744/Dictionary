@@ -18,9 +18,9 @@ val presentationModule = module {
 
     viewModel<TrainingViewModel> {
         TrainingViewModel(
-            getWordsByDaysMaxUseCase = get(),
             getWordsByDaysMinUseCase = get(),
-            updateDayUseCase = get()
+            updateDayUseCase = get(),
+            getWordsUseCase = get()
         )
     }
 }

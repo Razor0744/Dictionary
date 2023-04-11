@@ -14,10 +14,6 @@ class WordRepositoryImpl(private val wordDao: WordDao) : WordRepository {
         return wordDao.getWordsByDaysMin()
     }
 
-    override fun getWordsByDaysMax(): List<Word> {
-        return wordDao.getWordsByDaysMax()
-    }
-
     override fun addWord(word: Word) {
         wordDao.addWord(word = word)
     }

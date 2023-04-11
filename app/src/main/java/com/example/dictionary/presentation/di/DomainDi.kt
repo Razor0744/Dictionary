@@ -17,10 +17,6 @@ val domainModule = module {
         GetWordsByDaysMinUseCase(wordRepository = get())
     }
 
-    factory<GetWordsByDaysMaxUseCase> {
-        GetWordsByDaysMaxUseCase(wordRepository = get())
-    }
-
     factory<UpdateDayUseCase> {
         UpdateDayUseCase(wordRepository = get())
     }

@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.dictionary.databinding.FragmentTrainingBinding
 import com.example.dictionary.domain.model.Word
 import com.example.dictionary.presentation.viewmodelfragment.TrainingViewModel
 import kotlinx.coroutines.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
 
 
 class TrainingFragment : Fragment() {
@@ -19,8 +21,7 @@ class TrainingFragment : Fragment() {
 
     private val viewModel by viewModel<TrainingViewModel>()
 
-    private lateinit var wordsMax: List<Word>
-    private lateinit var wordsMin: List<Word>
+    private lateinit var words: List<Word>
     private var state = false
     private var number = 0
 
@@ -33,17 +34,16 @@ class TrainingFragment : Fragment() {
         animation()
 
         CoroutineScope(Dispatchers.IO).launch {
-            getWordsMax()
-            getWordsMin()
+            if (LocalDate.now().dayOfWeek.value == 1) {
+                getWords()
+            } else {
+                getWordsMin()
+            }
         }
 
-        viewModel.wordsMax.observe(viewLifecycleOwner) {
-            wordsMax = it
-        }
-        viewModel.wordsMin.observe(viewLifecycleOwner) {
-            wordsMin = it
+        viewModel.words.observe(viewLifecycleOwner) {
+            words = it
             setTextButton()
-            println(it)
         }
 
         binding.buttonKnow.setOnClickListener {
@@ -93,8 +93,8 @@ class TrainingFragment : Fragment() {
         viewModel.getWordsMin()
     }
 
-    private fun getWordsMax() {
-        viewModel.getWordsMax()
+    private fun getWords() {
+        viewModel.getWords()
     }
 
     private fun updateDay(word: Word) {
@@ -102,35 +102,38 @@ class TrainingFragment : Fragment() {
     }
 
     private fun setTextButton() {
-        if (wordsMin.size > number) {
+        if (words.size > number) {
             if (!state) {
-                binding.textCard.text = wordsMin[number].russian
+                binding.textCard.text = words[number].russian
             } else {
-                binding.textCard.text = wordsMin[number].english
+                binding.textCard.text = words[number].english
             }
+        } else {
+            Toast.makeText(requireContext(), "Больше нет", Toast.LENGTH_LONG).show()
+            binding.buttonCard.isClickable = false
         }
     }
 
     private fun knowWord() {
-        if (wordsMin.size > number) {
+        if (words.size > number) {
             updateDay(
                 word = Word(
-                    id = wordsMin[number].id,
-                    english = wordsMin[number].english,
-                    russian = wordsMin[number].russian,
-                    daysWithoutMistakes = wordsMin[number].daysWithoutMistakes + 1
+                    id = words[number].id,
+                    english = words[number].english,
+                    russian = words[number].russian,
+                    daysWithoutMistakes = words[number].daysWithoutMistakes + 1
                 )
             )
         }
     }
 
     private fun notKnowWord() {
-        if (wordsMin.size > number) {
+        if (words.size > number) {
             updateDay(
                 word = Word(
-                    id = wordsMin[number].id,
-                    english = wordsMin[number].english,
-                    russian = wordsMin[number].russian,
+                    id = words[number].id,
+                    english = words[number].english,
+                    russian = words[number].russian,
                     daysWithoutMistakes = 0
                 )
             )

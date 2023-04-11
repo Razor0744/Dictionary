@@ -14,9 +14,6 @@ interface WordDao {
     @Query("SELECT * FROM word WHERE daysWithoutMistakes < 8")
     fun getWordsByDaysMin(): List<Word>
 
-    @Query("SELECT * FROM word WHERE daysWithoutMistakes > 7")
-    fun getWordsByDaysMax(): List<Word>
-
     @Insert
     fun addWord(word: Word)
 

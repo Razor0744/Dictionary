@@ -3,28 +3,27 @@ package com.example.dictionary.presentation.viewmodelfragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.dictionary.domain.model.Word
-import com.example.dictionary.domain.usecase.GetWordsByDaysMaxUseCase
 import com.example.dictionary.domain.usecase.GetWordsByDaysMinUseCase
+import com.example.dictionary.domain.usecase.GetWordsUseCase
 import com.example.dictionary.domain.usecase.UpdateDayUseCase
 
 class TrainingViewModel(
-    private val getWordsByDaysMaxUseCase: GetWordsByDaysMaxUseCase,
     private val getWordsByDaysMinUseCase: GetWordsByDaysMinUseCase,
-    private val updateDayUseCase: UpdateDayUseCase
+    private val updateDayUseCase: UpdateDayUseCase,
+    private val getWordsUseCase: GetWordsUseCase
 ) : ViewModel() {
 
-    var wordsMax = MutableLiveData<List<Word>>()
-    var wordsMin = MutableLiveData<List<Word>>()
+    var words = MutableLiveData<List<Word>>()
 
     fun getWordsMin() {
-        wordsMin.postValue(getWordsByDaysMinUseCase.execute())
-    }
-
-    fun getWordsMax() {
-        wordsMax.postValue(getWordsByDaysMaxUseCase.execute())
+        words.postValue(getWordsByDaysMinUseCase.execute())
     }
 
     fun updateDay(word: Word) {
         updateDayUseCase.execute(word = word)
+    }
+
+    fun getWords() {
+        words.postValue(getWordsUseCase.execute())
     }
 }
